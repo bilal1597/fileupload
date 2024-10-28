@@ -38,7 +38,7 @@
                                 <td>{{$item->product_name}} </td>
                                 <td>{{$item->details}} </td>
                                 <td>
-                                    <img src="{{ asset($item->image ) }}" style="width: 70px; height:70px " alt="img">
+                                    <img src="{{ asset($item->image ) }}" style="width: 100px; height:80px " alt="img">
                                 </td>
                                 <td>{{$item->price}} </td>
                                 <td>{{$item->created_at}} </td>
