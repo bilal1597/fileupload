@@ -19,6 +19,14 @@
                 <form action="{{ route('post.Editproduct')}}" method="POST">
                     @csrf
                     <input type="hidden" name="id" id="" value="{{$product->id}}">
+
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput" class="form-label">Upload File/Image</label>
+                        <input type="file" name="image" value="{{$product->image}}" class="form-control" id="formGroupExampleInput">
+                        @error('image')
+                            <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
                     <div class="mb-3">
                         <label for="formGroupExampleInput" class="form-label">Product_name</label>
                         <input type="text" name="product_name" value="{{$product->product_name}}" class="form-control" id="formGroupExampleInput" placeholder="Enter Full Name">

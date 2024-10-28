@@ -24,8 +24,21 @@ class ProductController extends Controller
         $data = $request->validate([
             'product_name' => 'required',
             'details'  => 'required',
+            'image' => 'nullable|mimes:png,jpg,jpeg,webp',
             'price' => 'required',
         ]);
+
+        if ($request->has('image')) {
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+
+            $filename = time() . '.' . $extension;
+            $path = 'uploads/category/';
+            $file->move($path, $filename);
+
+            $data['image'] = $path . $filename;
+        }
+
         Product::create($data);
 
         return redirect()->route('show.products');

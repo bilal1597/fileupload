@@ -23,6 +23,7 @@
                     <th scope="col">ID</th>
                     <th scope="col">Product Name</th>
                     <th scope="col">Details</th>
+                    <th scope="col">Image</th>
                     <th scope="col">Price</th>
                     <th scope="col">Product Added Date</th>
                     <th scope="col">Last Update</th>
@@ -36,6 +37,9 @@
                                 <td>{{$loop ->iteration }} </td>
                                 <td>{{$item->product_name}} </td>
                                 <td>{{$item->details}} </td>
+                                <td>
+                                    <img src="{{ asset($item->image ) }}" style="width: 70px; height:70px " alt="img">
+                                </td>
                                 <td>{{$item->price}} </td>
                                 <td>{{$item->created_at}} </td>
                                 <td>{{$item ->updated_at}} </td>

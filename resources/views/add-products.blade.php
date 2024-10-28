@@ -11,7 +11,7 @@
     <div class="container">
         <div class="card">
             <div class="card-header">
-                Add Product
+                <h1>Add Product </h1>
             </div>
                 <div class="card-body">
                     <form action="{{route('post.product')}}" method="POST" enctype="multipart/form-data" >
@@ -29,6 +29,13 @@
                             @error('details')
                             <span class="text-danger">{{$message}} </span>
                         @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="formGroupExampleInput" class="form-label">Upload File/Image</label>
+                            <input type="file" name="image"  class="form-control" id="formGroupExampleInput" >
+                            @error('image')
+                                <span class="text-danger">{{$message}}</span>
+                            @enderror
                         </div>
 
                           <div class="mb-3">
