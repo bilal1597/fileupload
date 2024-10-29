@@ -156,9 +156,9 @@ CREATE TABLE `products` (
 INSERT INTO `products` (`id`, `product_name`, `details`, `image`, `file`, `price`, `created_at`, `updated_at`) VALUES
 (19, 'check', 'check', 'uploads/category/1730096430.JPG', NULL, '43998', '2024-10-28 01:20:30', '2024-10-28 01:20:30'),
 (21, 'p1', 'd1', 'uploads/category/1730096551.JPG', NULL, '8434', '2024-10-28 01:21:33', '2024-10-28 01:22:31'),
-(26, 'pdf', 'pdf', 'uploads/category/1730113673.jpg', 'uploads/category/files/1730113673.pdf', '3224', '2024-10-28 06:07:54', '2024-10-28 06:07:54'),
-(27, 'p1', 'd1', 'uploads/category/1730114609.jpg', 'uploads/category/files/1730114609.pdf', '3423', '2024-10-28 06:23:29', '2024-10-28 06:23:29'),
-(28, 'p1', 'check', 'uploads/category/1730115267.jpg', 'uploads/category/1730115267.pdf', '2333', '2024-10-28 06:34:27', '2024-10-28 06:34:27'),
+(26, 'pdf', 'pdf', 'uploads/category/1730113673.jpg', '3224', '2024-10-28 06:07:54', '2024-10-28 06:07:54'),
+(27, 'p1', 'd1', 'uploads/category/1730114609.jpg', '3423', '2024-10-28 06:23:29', '2024-10-28 06:23:29'),
+(28, 'p1', 'check', 'uploads/category/1730115267.jpg',  '2333', '2024-10-28 06:34:27', '2024-10-28 06:34:27'),
 (29, 'P1', 'dldfk', 'uploads/category/1730120928.jpg', 'uploads/category/files/1730120928.txt', '342', '2024-10-28 08:08:48', '2024-10-28 08:08:48'),
 (30, 'video', 'video', 'uploads/category/1730181490.jpg', 'uploads/category/files/1730181490.mp4', '3400', '2024-10-29 00:58:10', '2024-10-29 00:58:10');
 
