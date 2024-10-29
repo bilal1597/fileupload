@@ -43,8 +43,8 @@
                                 </td>
                                 <td>
                                     {{-- <input type="file" name="" id=""> --}}
-
-                                    <a href="{{ asset($item->file) }}">{{ $item->file }}</a></td>
+                                    {{ $item->file }} <br>
+                                    <a href="{{ asset($item->file) }}">view</a></td>
                                 <td>{{$item->price}} </td>
                                 <td>{{$item->created_at}} </td>
                                 <td>{{$item ->updated_at}} </td>

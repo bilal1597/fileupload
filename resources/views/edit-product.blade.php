@@ -44,6 +44,14 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="formGroupExampleInput" class="form-label">Upload File</label>
+                        <input type="file" name="file" class="form-control" id="formGroupExampleInput">
+                        @error('file')
+                            <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
                         <label for="formGroupExampleInput2" class="form-label">Price</label>
                         <input type="number" name="price" value="{{$product->price}}" class="form-control" id="formGroupExampleInput2" placeholder="Enter Phone Number">
                         @error('price')

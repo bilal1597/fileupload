@@ -1,0 +1,22 @@
+1. Crud 1st october
+2. crud ORM and fill(request->all()) function fillable
+3. login , sigup with email,password check from DB
+4. middlware
+5. auth
+6. crud using get, post, put, delete routes
+7. revise 
+8. Resource Route crud + GIT repo
+9. selecting ID in dropdown and getting Id through value to Update
+10. converting html to laravel
+11. Crud with authentication
+12. users auth for landing custom
+13. route middleware for auth
+14. forgot password through mailtrap
+15. changing password in DB
+16. **
+17. login, signup with breeze
+18. forgot password with breeze
+19(fri). crud with file, images
+20. crud of video.
+21. 
+

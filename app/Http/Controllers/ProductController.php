@@ -74,6 +74,7 @@ class ProductController extends Controller
             'product_name' => 'required',
             'details' => 'required',
             'image' => 'nullable|mimes:png,jpg,jpeg,webp',
+            'file' => 'nullable',
             'price' => 'required'
         ]);
 
@@ -97,6 +98,22 @@ class ProductController extends Controller
                 unset($data['image']); // Remove the image key if no new image is provided
             }
         }
+        if ($request->has('file')) {
+            $file = $request->file('file');
+            $extension = $file->extension();
+
+            $filename = time() . '.' . $extension;
+            $path = 'uploads/category/files/';
+            $file->move($path, $filename);
+
+            $data['file'] = $path . $filename;
+
+            if (File::exists(public_path($category->file))) {
+                File::delete(public_path($category->file));
+            } else {
+                unset($data['file']);
+            }
+        }
 
         //Product::where('id', $request->id)//
         $category->update($data);
@@ -110,6 +127,9 @@ class ProductController extends Controller
         $category = Product::findOrFail($id);
         if (File::exists(public_path($category->image))) {
             File::delete(public_path($category->image));
+        }
+        if (File::exists(public_path($category->file))) {
+            File::delete(public_path($category->file));
         }
         $category->delete();
         return redirect('products')->with('Successfully Deleted');

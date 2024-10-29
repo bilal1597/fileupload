@@ -1,0 +1,16 @@
+echo "# middleware" >> README.md
+
+git init
+git add .
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/bilal1597/Route_crud.git
+git push -u origin main
+
+git checkout
+
+
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
