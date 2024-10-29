@@ -13,3 +13,5 @@ Route::get('/edit/{id}', [ProductController::class, 'getEditProduct'])->name('ge
 Route::post('/edit/product/', [ProductController::class, 'postEditProduct'])->name('post.Editproduct');
 
 Route::get('/delete/{id}', [ProductController::class, 'deleteProduct'])->name('delete');
+
+Route::get('/file/view/{id}', [ProductController::class, 'View'])->name('file.view');

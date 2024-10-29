@@ -13,6 +13,12 @@ class ProductController extends Controller
         $show_products = Product::all();
         return view('products', compact('show_products'));
     }
+    public function View($id)
+    {
+        $data = Product::findOrFail($id);
+        // $data = basename(public_path('uploads'));
+        return view('view', compact('data'));
+    }
 
     public function getAddProduct()
     {
@@ -26,18 +32,29 @@ class ProductController extends Controller
             'product_name' => 'required',
             'details'  => 'required',
             'image' => 'nullable|mimes:png,jpg,jpeg,webp',
+            'file' => 'nullable',
             'price' => 'required',
         ]);
 
         if ($request->has('image')) {
             $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
+            $extension = $file->extension();
 
             $filename = time() . '.' . $extension;
             $path = 'uploads/category/';
             $file->move($path, $filename);
 
             $data['image'] = $path . $filename;
+        }
+        if ($request->has('file')) {
+            $file = $request->file('file');
+            $extension = $file->extension();
+
+            $filename = time() . '.' . $extension;
+            $path = 'uploads/category/files/';
+            $file->move($path, $filename);
+
+            $data['file'] = $path . $filename;
         }
 
         Product::create($data);
@@ -65,7 +82,7 @@ class ProductController extends Controller
 
         if ($request->has('image')) {
             $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
+            $extension = $file->extension();
 
             $filename = time() . '.' . $extension;
             $path = 'uploads/category/';

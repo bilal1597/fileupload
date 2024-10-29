@@ -19,11 +19,12 @@
         <div class="card-body">
             <table class="table table-sm table-striped table-bordered">
                 <thead>
-                  <tr>
+                   <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Product Name</th>
                     <th scope="col">Details</th>
                     <th scope="col">Image</th>
+                    <th scope="col">Files</th>
                     <th scope="col">Price</th>
                     <th scope="col">Product Added Date</th>
                     <th scope="col">Last Update</th>
@@ -40,6 +41,10 @@
                                 <td>
                                     <img src="{{ asset($item->image ) }}" style="width: 100px; height:80px " alt="img">
                                 </td>
+                                <td>
+                                    {{-- <input type="file" name="" id=""> --}}
+
+                                    <a href="{{ asset($item->file) }}">{{ $item->file }}</a></td>
                                 <td>{{$item->price}} </td>
                                 <td>{{$item->created_at}} </td>
                                 <td>{{$item ->updated_at}} </td>
