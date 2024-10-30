@@ -14,4 +14,6 @@ Route::post('/edit/product/', [ProductController::class, 'postEditProduct'])->na
 
 Route::get('/delete/{id}', [ProductController::class, 'deleteProduct'])->name('delete');
 
-Route::get('/file/view/{id}', [ProductController::class, 'View'])->name('file.view');
+Route::get('/image/view/{productId}', [ProductController::class, 'ImgView'])->name('image.view');
+Route::post('/image/view/{productId}', [ProductController::class, 'ImgPost'])->name('image.post');
+Route::get('/image/delete/{imageId}', [ProductController::class, 'ImgDelete']);

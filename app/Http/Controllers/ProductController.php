@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use PhpParser\Node\Stmt\Return_;
 
 class ProductController extends Controller
 {
@@ -13,12 +15,56 @@ class ProductController extends Controller
         $show_products = Product::all();
         return view('products', compact('show_products'));
     }
-    public function View($id)
+    public function ImgView($productId)
     {
-        $data = Product::findOrFail($id);
-        // $data = basename(public_path('uploads'));
-        return view('view', compact('data'));
+        $show_images = Product::findOrFail($productId);
+        $product_images = ProductImage::where('product_id', $productId)->get();
+
+        return view('image', compact('show_images', 'product_images'));
     }
+
+    // public function ImgPost(Request $request, $productId)
+    // {
+    //     $request->validate([
+    //         'images.*' => 'required|image|mimes:png,jpg,jpeg,webp' // har image validate karega
+    //     ]);
+
+    // $product = Product::findOrFail($productId);
+
+    // $Imagedata = [];
+    // if ($request->has('images')) {
+    //     $files = $request->file('images');
+
+    //     foreach ($files as $key => $file) {
+    //         $extension = $file->extension();
+    //         $filename = $key . '-' . time() . '.' . $extension;
+
+    //         $path = 'uploads/category/multiple/';
+    //         $file->move($path, $filename);
+
+    //         $Imagedata[] = [
+    //             'product_id' => $product->id,
+    //             'image' => $path . $filename,
+    //         ];
+    //     }
+    // }
+    // ProductImage::insert($Imagedata);
+    // return redirect()->back()->with('status', 'Uploaded Successfully');
+    // }
+
+    public function ImgDelete($imageId)
+    {
+        $multi = ProductImage::findOrFail($imageId);
+
+        if (File::exists(public_path($multi->image))) {
+            File::delete(public_path($multi->image));
+        }
+        $multi->delete();
+        return redirect()->back()->with('status', 'Successfully Removed');
+    }
+
+
+    ///////////////PRODUCTS//////////////
 
     public function getAddProduct()
     {
@@ -33,6 +79,7 @@ class ProductController extends Controller
             'details'  => 'required',
             'image' => 'nullable|mimes:png,jpg,jpeg,webp',
             'file' => 'nullable',
+            'images.*' => 'required|image|mimes:png,jpg,jpeg,webp', // har image validate karega
             'price' => 'required',
         ]);
 
@@ -56,7 +103,28 @@ class ProductController extends Controller
 
             $data['file'] = $path . $filename;
         }
+        // $product = Product::findOrFail($producId);
 
+        $imagespath = [];
+        if ($request->has('images')) {
+            $files = $request->file('images');
+
+            foreach ($files as $key => $file) {
+                $extension = $file->extension();
+                $filename = $key . '-' . time() . '.' . $extension;
+
+                $path = 'uploads/category/multiple/';
+                $file->move($path, $filename);
+
+                // $data['image'] =  $path . $filename;
+
+                $imagespath[] = [
+                    'images' => $path . $filename,
+                ];
+                $data['images'] = $imagespath;
+                // $data['images'] = json_encode($imagespath);
+            }
+        }
         Product::create($data);
 
         return redirect()->route('show.products');

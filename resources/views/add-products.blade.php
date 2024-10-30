@@ -31,20 +31,20 @@
                         @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="formGroupExampleInput" class="form-label">Upload File/Image</label>
+                            <label for="formGroupExampleInput" class="form-label">Upload Image</label>
                             <input type="file" name="image"  class="form-control" id="formGroupExampleInput" >
                             @error('image')
                                 <span class="text-danger">{{$message}}</span>
                             @enderror
-                        </div>
+                        </div><hr>
 
                         <div class="mb-3">
-                            <label for="formGroupExampleInput" class="form-label">Upload File</label>
+                            <label for="formGroupExampleInput" class="form-label">Upload Any File</label>
                             <input type="file" name="file"  class="form-control" id="formGroupExampleInput" >
                             @error('file')
                                 <span class="text-danger">{{$message}}</span>
                             @enderror
-                        </div>
+                        </div><hr>
 
                           <div class="mb-3">
                             <label for="formGroupExampleInput2" class="form-label">Price</label>
@@ -53,6 +53,14 @@
                             <span class="text-danger">{{$message}} </span>
                         @enderror
                         </div>
+                        <div class="mb-3">
+                            <label>Upload Multiple Images</label>   <br> <br>
+                            <input type="file" name="images[]" multiple  class="form-control">
+                            @error('images')
+                            <span class="text-danger">{{$message}} </span>
+                        @enderror
+                        </div>
+                        <hr>
 
                           <button type="submit" class="btn btn-primary">Save</button>
                     </form>
