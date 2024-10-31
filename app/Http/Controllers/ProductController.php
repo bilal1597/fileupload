@@ -10,11 +10,22 @@ use PhpParser\Node\Stmt\Return_;
 
 class ProductController extends Controller
 {
-    public function showProducts()
+    public function showProducts(Request $request)
     {
-        $show_products = Product::all();
+        // $show_products = Product::all();
+        // $id = $request->input('test');
+        // dd($id);
+        // $p = ProductImage::all();
+        // dd($p);
+        // foreach ($show_products as $item) {
+        $show_products = Product::all()->map(function ($item) {
+            // Fetch the associated images for each product
+            $item->images = ProductImage::where('product_id', $item->id)->get()->pluck('image'); // Ensure 'image_path' matches your DB field
+            return $item;
+        });
         return view('products', compact('show_products'));
     }
+
     public function ImgView($productId)
     {
         $show_images = Product::findOrFail($productId);
@@ -68,7 +79,6 @@ class ProductController extends Controller
 
     public function getAddProduct()
     {
-
         return view('add-products');
     }
 
@@ -79,7 +89,7 @@ class ProductController extends Controller
             'details'  => 'required',
             'image' => 'nullable|mimes:png,jpg,jpeg,webp',
             'file' => 'nullable',
-            'images.*' => 'required|image|mimes:png,jpg,jpeg,webp', // har image validate karega
+            'images.*' => 'required|array|mimes:png,jpg,jpeg,webp', // har image validate karega
             'price' => 'required',
         ]);
 
@@ -93,6 +103,7 @@ class ProductController extends Controller
 
             $data['image'] = $path . $filename;
         }
+
         if ($request->has('file')) {
             $file = $request->file('file');
             $extension = $file->extension();
@@ -125,7 +136,11 @@ class ProductController extends Controller
                 // $data['images'] = json_encode($imagespath);
             }
         }
+
+
         Product::create($data);
+
+
 
         return redirect()->route('show.products');
     }
