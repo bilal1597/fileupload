@@ -34,39 +34,25 @@
                 </thead>
                 <tbody>
                     {{-- @if (count($all_users) > 0) --}}
-                        @foreach ($show_products as $item)
+                        @foreach ($product as $item)
                             <tr>
                                 <td>{{$loop ->iteration }} </td>
                                 <td>{{$item->product_name}} </td>
                                 <td>{{$item->details}} </td>
                                 <td>
-                                    <img src="{{ asset($item->image ) }}" style="width: 150px; height:80px " alt="img">
+                                    <img src="{{ asset($item->image ) }}" style="width: 100px; height:80px " alt="img">
                                 </td>
                                 <td>
-                                    {{ $item->file }} <br>
+                                    {{-- {{ $item->file }} <br> --}}
                                     <a href="{{ asset($item->file) }}">view</a></td>
                                 <td>{{$item->price}} </td>
                                 <td>
-                                    {{-- <img src="{{asset($item ->images)}}" class="border p-2 m-3" style="width: 100px; height:140px " alt=""> --}}
-                                    @if ($item->images->isNotEmpty())
-                                    @foreach ($item->images as $image)
-                                        <img src="{{ asset($image) }}" class="border p-2 m-3" style="width: 70px; height: 70px" alt="">
+
+                                    @foreach ($item->productImages as $image)
+                                        <img src="{{ asset($image->images) }}" height="100" class="border p-2 m-3"  alt="">
                                     @endforeach
-                                @else
-                                    <p>No images available</p>
-                                @endif
+
                                 </td>
-                                {{-- <td><a href="{{url('/image/view/' .$item->id)}}" class="btn btn-sm btn-secondary">View Images</a></td> --}}
-                                {{-- <td>  @php
-                                $images = json_decode($item->images); // Decode the JSON string into an array
-                                @endphp --}}
-                                {{-- @if ($images)
-                                    @foreach ($images as $image)
-                                        <img src="{{ asset($image) }}" style="width: 20px; height: 20px" alt="img">
-                                    @endforeach
-                                @else
-                                    <p>No Images</p>
-                                @endif </td> --}}
                                 <td>{{$item->created_at}} </td>
                                 <td>{{$item ->updated_at}} </td>
                                 <td>

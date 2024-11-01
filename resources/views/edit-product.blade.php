@@ -36,7 +36,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="formGroupExampleInput" class="form-label">Upload File/Image</label>
+                        <label for="formGroupExampleInput" class="form-label">Upload Image</label>
                         <input type="file" name="image" class="form-control" id="formGroupExampleInput">
                         @error('image')
                             <span class="text-danger">{{$message}}</span>
@@ -58,6 +58,15 @@
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
+
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput" class="form-label">Upload Multiple Images</label>
+                        <input type="file" name="images" multiple class="form-control" id="formGroupExampleInput">
+                        @error('images')
+                            <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+
                     <button type="submit" class="btn btn-primary">Save</button>
 
                 </form>

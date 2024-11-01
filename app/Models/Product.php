@@ -4,13 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\ProductImage;
 
 class Product extends Model
 {
-    // public function product(): BelongsTo
-    // {
-    //     return $this->belongsTo(Product::class);
-    // }
     protected $fillable = [
         'product_name',
         'details',
@@ -19,4 +16,8 @@ class Product extends Model
         'price',
         'images'
     ];
+    public function productImages()
+    {
+        return $this->hasMany(ProductImage::class, 'product_id');
+    }
 }
