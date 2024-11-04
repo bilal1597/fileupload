@@ -191,14 +191,22 @@ class ProductController extends Controller
     {
         // $category = Product::where('id', $id);
 
-        $category = Product::findOrFail($id);
-        if (File::exists(public_path($category->image))) {
-            File::delete(public_path($category->image));
+        $product = Product::findOrFail($id);
+        if (File::exists(public_path($product->image))) {
+            File::delete(public_path($product->image));
         }
-        if (File::exists(public_path($category->file))) {
-            File::delete(public_path($category->file));
+        if (File::exists(public_path($product->file))) {
+            File::delete(public_path($product->file));
         }
-        $category->delete();
+
+        foreach ($product->productImages as $image) {
+            if (file_exists(public_path($image->images))) {
+                unlink(public_path($image->images));
+            }
+            $image->delete();
+        }
+
+        $product->delete();
         return redirect('products')->with('Successfully Deleted');
     }
 }
