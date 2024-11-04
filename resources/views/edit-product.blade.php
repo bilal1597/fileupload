@@ -61,7 +61,7 @@
 
                     <div class="mb-3">
                         <label for="formGroupExampleInput" class="form-label">Upload Multiple Images</label>
-                        <input type="file" name="images" multiple class="form-control" id="formGroupExampleInput">
+                        <input type="file" name="images[]" multiple class="form-control" id="formGroupExampleInput">
                         @error('images')
                             <span class="text-danger">{{$message}}</span>
                         @enderror

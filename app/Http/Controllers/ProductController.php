@@ -28,35 +28,6 @@ class ProductController extends Controller
     // }
 
 
-    // public function ImgPost(Request $request, $productId)
-    // {
-    //     $request->validate([
-    //         'images.*' => 'required|image|mimes:png,jpg,jpeg,webp' // har image validate karega
-    //     ]);
-
-    // $product = Product::findOrFail($productId);
-
-    // $Imagedata = [];
-    // if ($request->has('images')) {
-    //     $files = $request->file('images');
-
-    //     foreach ($files as $key => $file) {
-    //         $extension = $file->extension();
-    //         $filename = $key . '-' . time() . '.' . $extension;
-
-    //         $path = 'uploads/category/multiple/';
-    //         $file->move($path, $filename);
-
-    //         $Imagedata[] = [
-    //             'product_id' => $product->id,
-    //             'image' => $path . $filename,
-    //         ];
-    //     }
-    // }
-    // ProductImage::insert($Imagedata);
-    // return redirect()->back()->with('status', 'Uploaded Successfully');
-    // }
-
 
     public function ImgDelete($imageId)
     {
@@ -78,61 +49,6 @@ class ProductController extends Controller
     }
 
 
-    // public function postAddProduct(Request $request)
-    // {
-
-
-    //     $data = $request->validate([
-    //         'product_name' => 'required',
-    //         'details' => 'required',
-    //         'image' => 'nullable|mimes:png,jpg,jpeg,webp',
-    //         'file' => 'nullable',
-    //         'images.*' => 'required|image|mimes:png,jpg,jpeg,webp', // Validate each image
-    //         'price' => 'required',
-    //     ]);
-    //     $product = new Product(); // Creates and saves the product.
-
-    //     $product->product_name = $request->product_name;
-    //     $product->details = $request->details;
-    //     $product->price = $request->price;
-    //     // $product->f = $request->file
-
-    //     // Handle single product image upload
-    //     if ($request->hasFile('image')) {
-    //         $file = $request->file('image');
-    //         $filename = time() . '.' . $file->extension();
-    //         $path = 'uploads/category/';
-    //         $file->move($path, $filename);
-    //         $product->image = $path . $filename;
-    //     }
-
-    //     // Handle file upload (if any)
-    //     if ($request->hasFile('file')) {
-    //         $file = $request->file('file');
-    //         $filename = time() . '.' . $file->extension();
-    //         $path = 'uploads/category/files/';
-    //         $file->move($path, $filename);
-    //         $product->file = $path . $filename;
-    //     }
-    //     $product->save();
-
-    //     if ($request->has('images')) {
-
-    //         foreach ($request->file('images') as $file) {
-    //             $filename = time() . '-' . uniqid() . '.' . $file->extension(); // Unique filename
-    //             $file->move($path, $filename);
-
-    //             // Prepare the data for insertion
-    //             $product->productImages()->create([
-    //                 'images' => 'uploads/category/multiple/' .
-    //                     $filename
-    //             ]);
-    //         }
-    //     }
-
-
-
-    // }
 
 
 
@@ -195,6 +111,7 @@ class ProductController extends Controller
     }
 
 
+
     public function getEditProduct($id, Request $request)
     {
         $product = Product::findOrFail($id);
@@ -204,79 +121,71 @@ class ProductController extends Controller
 
     public function postEditProduct(Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
             'product_name' => 'required',
             'details' => 'required',
             'image' => 'nullable|mimes:png,jpg,jpeg,webp',
             'file' => 'nullable',
-            'price' => 'required'
+            'price' => 'required',
+            'images.*' => 'nullable|image|mimes:png,jpg,jpeg,webp',
         ]);
 
-        // $category = Product::where('id', $request->id);
-        $category = Product::findOrFail($request->id);
+        $product = Product::findOrFail($request->id);
+        $product->product_name = $request->product_name;
+        $product->details = $request->details;
+        $product->price = $request->price;
 
+        // Handle single image upload
         if ($request->has('image')) {
+            if ($product->image && file_exists(public_path($product->image))) {
+                unlink(public_path($product->image));
+            }
             $file = $request->file('image');
-            $extension = $file->extension();
-
-            $filename = time() . '.' . $extension;
+            $filename = time() . '.' . $file->extension();
             $path = 'uploads/category/';
-            $file->move($path, $filename);
-
-            $data['image'] = $path . $filename;
-
-            if (File::exists(public_path($category->image))) {
-                File::delete(public_path($category->image));
-            } else {
-                // If no new image is uploaded, keep the old image path
-                unset($data['image']); // Remove the image key if no new image is provided
-            }
+            $file->move(public_path($path), $filename);
+            $product->image = $path . $filename;
         }
+
+        // Handle single file upload
         if ($request->has('file')) {
+            if ($product->file && file_exists(public_path($product->file))) {
+                unlink(public_path($product->file));
+            }
             $file = $request->file('file');
-            $extension = $file->extension();
-
-            $filename = time() . '.' . $extension;
-            $path = 'uploads/category/files/';
-            $file->move($path, $filename);
-
-            $data['file'] = $path . $filename;
-
-            if (File::exists(public_path($category->file))) {
-                File::delete(public_path($category->file));
-            } else {
-                unset($data['file']);
-            }
+            $filename = time() . '.' . $file->extension();
+            $path = 'uploads/category/';
+            $file->move(public_path($path), $filename);
+            $product->file = $path . $filename;
         }
 
-        $imagePath = []; // Initialize the array to store image paths
+        $product->save();
 
+        // Handle multiple images
         if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                // Generate a unique filename
-                $multi = time() . '_' . uniqid() . '.' . $image->extension();
-                $path = 'uploads/category/multi/'; // Use public_path
-
-                // Move the image to the specified path
-                $image->move($path, $multi);
-
-                // Store the relative path in the database
-                $category->productImages()->create(['images' => $path . $multi]);
-
-                // Add the full path to the array (optional)
-                $imagePath[] = $path . $multi;
-                if (File::exists(public_path($category->images))) {
-                    File::delete(public_path($category->images));
-                } else {
-                    unset($data['file']);
+            // Delete existing product images
+            foreach ($product->productImages as $image) {
+                if (file_exists(public_path($image->images))) {
+                    unlink(public_path($image->images));
                 }
+                $image->delete();
+            }
+            $images = [];
+            // Save new images
+            foreach ($request->file('images') as $image) {
+                $multiFilename = time() . '_' . uniqid() . '.' . $image->extension();
+                $path = 'uploads/category/multi/';
+                $image->move(public_path($path), $multiFilename);
+
+                // Store the new image path in the database
+                $product->productImages()->create(['images' => $path . $multiFilename]);
+                $images[] = $path . $multiFilename;
             }
         }
 
-        //Product::where('id', $request->id)//
-        $category->update($data);
-        return redirect()->route('show.products')->with('Product successfully Updated');
+        return redirect()->route('show.products')->with('success', 'Product successfully updated');
     }
+
 
     public function deleteProduct($id)
     {
